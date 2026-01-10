@@ -8,7 +8,7 @@ This course builds foundational skills in data visualization, emphasizing both c
 
 ## Instructors
 
-- [Jeffrey Ziegler](mailto:zieglerj@tcd.ie), *Office Hours*: T/Th 10:00-11:00 [Zoom](https://calendly.com/jeffreymziegler/pou-7003-oh)
+- [Jeffrey Ziegler](mailto:zieglerj@tcd.ie), *Office Hours*: Tu/W 11:00-12:00 [Zoom](https://calendly.com/jeffreymziegler/pou-7003-oh)
 
 ## Hardware and Software
 
