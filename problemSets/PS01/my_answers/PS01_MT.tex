@@ -3,6 +3,7 @@
 \usepackage{natbib}
 \usepackage{setspace}
 \usepackage{fullpage}
+\usepackage{booktabs}
 \usepackage{color}
 \usepackage[reqno]{amsmath}
 \usepackage{amsthm}
@@ -60,9 +61,10 @@
 \newcommand{\Sref}[1]{Section~\ref{#1}}
 \newtheorem{hyp}{Hypothesis}
 
-\title{Problem Set 1}
+\title{Problem Set 1 \\
+	\large Data Visualisation for Social Scientists}
 \date{Due: January 28, 2026}
-\author{Data Visualisation for Social Scientists}
+\author{Matilda Tomatis}
 
 \begin{document}
 	\maketitle
@@ -105,15 +107,295 @@ First, you need to \href{https://personal.lse.ac.uk/hix/HixNouryRolandEPdata.HTM
 \end{itemize}
 \end{enumerate}
 
+\vspace{2cm}
+\noindent\textbf{Answer 1}\\
+\vspace{0.5cm}
+
+\noindent Both dataset are loaded in the global environment. 
+
+\lstinputlisting[language=R, firstline=33, lastline=38]{PS01_MT.R}
+
+\vspace{1cm}
+\noindent\textbf{Answer 2}\\
+\vspace{0.5cm}
+
+\noindent In \texttt{mep\_info\_26Jul11} the units of analysis are MEPs; their main characteristics are present: such as their ID number (\texttt{"MEP id"}), their EP group (\texttt{"EP Group"}), the country of origin, (\texttt{"Member State"}), and their national party of affiliation (\texttt{"National Party"}). Moreover, each MEP is given nominate coordinates on two directions. 
+
+\noindent In \texttt{rcv\_ep1} are present MEP who partecipated in at least one roll-call vote (the number of observation is smaller than ythe one in mep\_info\_26Jun11 plausably for this reason). In this dataset are present some basic personal information (such as the MEP id number and name, the country of origin, the EP and national political affiliation), plus wheter MEP were present at each of the EP1 roll-call votes and the vote they casted.
+
+\vspace{1cm}
+\noindent\textbf{Answer 3}\\
+\vspace{0.5cm}
+
+\noindent Columns with the name starting with the letter "V" are those in which vote decisions are stored. The data is tidied from a wide to a long format, as such all the voting decision will be stored in on single column called \texttt{vote\_decision}. 
+\vspace{0.5cm}
+
+\lstinputlisting[language=R, firstline=42, lastline=47]{PS01_MT.R}
+\vspace{0.5cm}
+
+\noindent For clarity in interpretation and subsequent analysis, the \texttt{vote\_decision} variable is recoded from numeric values into descriptive categorical labels (e.g.\ Yes, No, Absent) and converted into a factor, with levels corresponding to each voting outcome.
+\vspace{0.5cm}
+
+\lstinputlisting[language=R, firstline=49, lastline=55]{PS01_MT.R}
+\vspace{0.5cm}
+
+\noindent Here follows a summary table of both the count and the share of each possible decision category across all roll-call votes and MPEs. The highest percentage are $21.3\%$ and $22.5\%$, corresponding to \texttt{Present but did not vote} and \texttt{Not an MEP}
+\vspace{0.5cm}
+
+\lstinputlisting[language=R, firstline=58, lastline=65]{PS01_MT.R}
+\vspace{0.5cm}
+
+\begin{table}[H]
+	\centering
+	\caption{Summary count and share of MEPs vote decisions}
+	\centering
+	\begin{tabular}[t]{lrr}
+		\toprule
+		vote\_decision & total\_votes & vote\_share\\
+		\midrule
+		Absent & 99753 & 0.205\\
+		Yes & 88185 & 0.182\\
+		No & 75171 & 0.155\\
+		Abstain & 9577 & 0.020\\
+		Present\_no\_vote & 109224 & 0.225\\
+		\addlinespace
+		Not\_MEP & 103618 & 0.213\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\vspace{1cm}
+\noindent\textbf{Answer 4}\\
+\vspace{0.5cm}
+
+\noindent The two datasets are merged by the IDs of the MEPs, subsequently columns which were reduntant in informations were eliminated from the \texttt{merged\_mep} dataset. Only the information in reagrds to EP1 members are kepts in this joined dataset.
+\vspace{0.5cm}
+
+\lstinputlisting[language=R, firstline=77, lastline=81]{PS01_MT.R}
+\vspace{0.5cm}
+
+\noindent There are some cases of missingness. More in particular, for some of the MEPs nominate coordinates information is not present. 
+\vspace{0.5cm}
+
+\begin{verbatim}
+> any(is.na(mep_merged))
+[1] TRUE
+> colSums(is.na(mep_merged))
+MEPID       MEPNAME            MS            NP           EPG 
+0             0             0             0             0 
+vote_number vote_decision        NOM-D1        NOM-D2 
+0             0         42528         42528 
+\end{verbatim}
+\vspace{0.5cm}
+
+\noindent The data is aggregated in relation to unique IDs to understand how this missigness translates into MEPs.
+\vspace{0.5cm}
+ 
+\lstinputlisting[language=R, firstline=86, lastline=91]{PS01_MT.R}
+\vspace{0.5cm}
+
+\begin{verbatim}
+> paste("Out of a total of ", MEPs,", ", MEP_not_coord, " have some
+missing coordinate information" )
+[1] "Out of a total of  548 ,  48  have some missing coordinate information"
+\end{verbatim}
+
+\vspace{0.5cm}
+\noindent\textbf{Answer 5}\\
+\vspace{0.5cm}
+
+\noindent The following tables present the relevant statistics by EP group. The first table shows the rate of Yes votes, calculated over the total of Yes, No, and Abstain votes. The second table reports the mean abstention rates, using the same denominator as the previous statistic. Finally, the third table presents the mean coordinates for each EP group.
+
+\noindent In order to properly calculate these statistics, a wrongly coded entry was corrected to a NA value. 
+
+\vspace{0.5cm}
+
+\lstinputlisting[language=R, firstline=97, lastline=127]{PS01_MT.R}
+\vspace{0.5cm}
+
+\begin{table}[H]
+	\centering
+	\caption{The mean rate of Yes votes - by EP group}
+	\centering
+	\begin{tabular}[t]{lr}
+		\toprule
+		EPG & yes\_rate\\
+		\midrule
+		C & 0.415\\
+		E & 0.509\\
+		G & 0.512\\
+		L & 0.486\\
+		M & 0.528\\
+		\addlinespace
+		N & 0.581\\
+		R & 0.457\\
+		S & 0.576\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+\vspace{0.5cm}
+
+\noindent The maximum mean rate is found for the \texttt{N European Parliament Group}, with a value equal to $58.1\%$; the lowest rate stands at $41.5\%$, being the mean rate of yes vote for the \texttt{C European Parliament Group}.
+
+\vspace{1cm}
+\begin{table}[H]
+	\centering
+	\caption{The mean abstention rate - by EP group}
+	\centering
+	\begin{tabular}[t]{lr}
+		\toprule
+		EPG & abstain\_rate\\
+		\midrule
+		C & 0.075\\
+		E & 0.021\\
+		G & 0.070\\
+		L & 0.063\\
+		M & 0.080\\
+		\addlinespace
+		N & 0.056\\
+		R & 0.265\\
+		S & 0.057\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\vspace{0.5cm}
+\noindent The abstention rates tend to be on the lower side, with the \texttt{R EP group} standing as an exception, having a rate of $26.5\%$.
+
+\vspace{1cm}
+\begin{table}[H]
+	\centering
+	\caption{The mean of each coordinate dimension - by EP group}
+	\centering
+	\begin{tabular}[t]{lrr}
+		\toprule
+		EPG & mean\_coord1 & mean\_coord2\\
+		\midrule
+		C & 0.811 & 0.530\\
+		E & 0.512 & -0.277\\
+		G & 0.280 & -0.818\\
+		L & 0.409 & -0.324\\
+		M & -0.357 & -0.201\\
+		\addlinespace
+		N & 0.250 & -0.386\\
+		R & -0.586 & -0.042\\
+		S & -0.098 & 0.261\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\vspace{0.5cm}
+\noindent The mean values for the nominate coordinates vary greatly between different parliamentary groups. 
+
+\vspace{2.5cm}
+
 \subsection*{Data Visualization}
 
 \begin{enumerate}
 	\item Plot the distribution of the first NOMINATE dimension by EP group, and explain any trends you see.
 	\item Make a scatterplot of \textit{nomdim1} (x-axis) and \textit{nomdim2} (y-axis), with one point per MEP and color by EP group.
 	\item Produce a boxplot of the proportion voting \textit{Yes} by EP group to visualize cohesion.
-	\item Display the proportion voting \textit{Yes} per year by national party using a bar plot.
-	\item For each EP group, calculate the average \textit{Yes} share per year and plot a line graph. 
+	\item Display the proportion voting Yes by national party using a bar plot. 
 \end{enumerate}
 
+\vspace{1.5cm}
+\noindent\textbf{Data Preparation for visualization}\\
+
+\vspace{0.5cm}
+\noindent In order to be able to plot the data for item 1 and 2, hence to have only one observation for each MEP with the related coordinates, the data was wrangled as follows.
+\vspace{0.5cm}
+
+\lstinputlisting[language=R, firstline=158, lastline=161]{PS01_MT.R}
+\vspace{0.5cm}
+
+
+\noindent\textbf{Answer 1}\\
+\vspace{0.5cm}
+
+\begin{figure}[H]\centering
+	\caption{}
+	\label{fig:visualisation_1}
+	\includegraphics[width=1.1\textwidth]{viz1.pdf}
+\end{figure}
+\vspace{0.5cm}
+
+\lstinputlisting[language=R, firstline=171, lastline=185]{PS01_MT.R}
+\vspace{0.5cm}
+
+\noindent As shown in Figure 1, the European Parliament groups present different density distributions, with some showcasing a more cohesive pattern along the first coordinate dimension and others being more dispersed. 
+
+\noindent In particular, groups \texttt{C}, \texttt{E}, and \texttt{L} present a high spike, indicating a high probability of their members being positioned on the positive side of the first coordinate spectrum. Group \texttt{G} also displays an entirely positive density distribution, but with a wider spread than the previous groups.
+
+\noindent Group \texttt{S} exhibits a center-left density distribution, peaking around 0, but with a relatively broader spread.
+
+\noindent Finally, groups \texttt{M}, \texttt{N}, and \texttt{R} show more dispersed density distributions, reflecting a higher degree of intra-group variation along the first coordinate dimension. In particular, groups \texttt{M} and \texttt{N} both show distinguishable peaks overlapping around 0, with \texttt{M} predominantly on the left side and \texttt{N} on the right side. Group \texttt{R}, on the other hand, has its entire density distribution on the negative side.
+
+\vspace{0.5cm}
+\noindent\textbf{Answer 2}\\
+\vspace{0.5cm}
+
+\begin{figure}[H]\centering
+	\caption{}
+	\label{fig:visualisation_2}
+	\includegraphics[width=1.1\textwidth]{viz2.pdf}
+\end{figure}
+\vspace{0.5cm}
+
+\lstinputlisting[language=R, firstline=193, lastline=208]{PS01_MT.R}
+\vspace{0.5cm}
+
+\noindent Figure 2 presents the positioning of each Member of the European Parliament along Nominate Coordinates 1 and 2. Some groups form clusters that are easily identifiable, while others show a more scattered distribution, consistent with the previously discussed density patterns along Coordinate 1.
+
+\vspace{0.5cm}
+\noindent\textbf{Answer 3}\\
+\vspace{0.5cm}
+
+\lstinputlisting[language=R, firstline=213, lastline=221]{PS01_MT.R}
+\vspace{0.5cm}
+
+\noindent To present Figure 3, the merged data were grouped by EP group and roll-call number. For each combination, the proportion of \texttt{Yes} votes was computed. From this summarized data, the following boxplots were created.
+
+\vspace{0.5cm}
+
+\begin{figure}[H]\centering
+	\caption{}
+	\label{fig:visualisation_3}
+	\includegraphics[width=1.1\textwidth]{viz3.pdf}
+\end{figure}
+\vspace{0.5cm}
+
+
+\lstinputlisting[language=R, firstline=225, lastline=240]{PS01_MT.R}
+\vspace{0.5cm}
+\noindent Figure 3 illustrates that, for the majority of parliamentary groups, there is high variability: the groups do not consistently vote cohesively across all policy issues. Groups \texttt{G}, \texttt{L}, \texttt{M}, and \texttt{R} especially tend to split in their voting behavior, with all of them having an average proportion of \texttt{Yes} votes around 50\%.
+
+\noindent Groups \texttt{N} and \texttt{S} show narrower boxplots, indicating greater cohesion, with \texttt{N} having an average of approximately 60\% and a lower quartile around 40\%. Groups \texttt{C} and \texttt{E} are noteworthy as well, displaying average proportions under 12.5\% and over 75\%, respectively.
+
+\vspace{0.5cm}
+\noindent\textbf{Answer 4}\\
+\vspace{0.5cm}
+
+\lstinputlisting[language=R, firstline=246, lastline=255]{PS01_MT.R}
+\vspace{0.5cm}
+
+\noindent In order to obtain the \texttt{Yes} proportions needed for the creation of Figure 4, the merged data were grouped by national party. For each subgroup, the sums of \texttt{Yes}, \texttt{No}, and \texttt{Abstain} votes across all roll-call votes were calculated, from these figures the share of \texttt{Yes} votes was computed.
+
+\vspace{0.5cm}
+
+\begin{figure}[H]\centering
+	\caption{}
+	\label{fig:visualisation_4}
+	\includegraphics[width=1.15\textwidth]{viz4.pdf}
+\end{figure}
+\vspace{0.5cm}
+
+\lstinputlisting[language=R, firstline=259, lastline=275]{PS01_MT.R}
+\vspace{0.5cm}
+
+\noindent For graphical interpretation, the bars were filled according to each national party's percentage of \texttt{Yes} votes.
+
+\noindent The national parties \texttt{1703} and \texttt{1709} have notably lower proportions of \texttt{Yes} votes, with the former being below 10\%. On the opposite end, the national parties \texttt{1113}, \texttt{2208}, and \texttt{2407} have quite high shares of \texttt{Yes} votes, with the first exceeding 70\%.
+
+\noindent Most of the other national parties, however, have shares ranging between 40\% and 60\%.
 
 \end{document}
