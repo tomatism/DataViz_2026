@@ -93,38 +93,42 @@ NCSS <- NCSS |>
 
 ## DATA VIZ 1 ##
 
-# Calculating proportions #
 NCSS_viz1 <- NCSS |>
   group_by(YEAR, TRAD12) |>
-  summarise(
-    prop_above_avg = mean(AVG_INCOME, na.rm = TRUE),
-    .groups = "drop"
-  )
+  summarise(prop_above = mean(AVG_INCOME, na.rm = TRUE), .groups = "drop") |>
+  mutate(prop_below = 1 - prop_above) |>
+  pivot_longer(cols = c(prop_above, prop_below), 
+               names_to = "IncomeLevel", values_to = "Proportion") |>
+  mutate(IncomeLevel = recode(IncomeLevel,
+                              prop_above = "Above Average",
+                              prop_below = "Below Average"))
 
-#Visualization 1 #
-pdf("viz1.pdf", width = 10, height = 6, family = "Times")
 
-ggplot(NCSS_viz1, aes(x = TRAD12, y = prop_above_avg, fill = TRAD12)) +
-  geom_col() +
-  geom_text(aes(label = paste0(round(100 * prop_above_avg, 1), "%")),
-            hjust = -0.1) +
+my_colors <- viridis(5, option = "D")[c(3, 4)]  
+
+pdf("viz1.pdf", width = 10, height = 8, family = "Times")
+
+ggplot(NCSS_viz1, aes(x = TRAD12, y = Proportion, fill = IncomeLevel)) +
+  geom_col(position = "stack") +
+  geom_text(aes(label = scales::percent(Proportion, accuracy = 1)),
+            position = position_stack(vjust = 0.5),
+            size = 3) +
   facet_wrap(~ YEAR) +
   coord_flip() +
-  scale_y_continuous(labels = percent_format(), limits = c(0, 0.75)) +
-  scale_fill_viridis_d(name = "TRAD12") +
+  scale_y_continuous(labels = percent_format()) +
+  scale_fill_manual(values = my_colors, name = "Income Level") +
   labs(
-    title = "Proportion of congregations above average income - by 12-level religious classification",
-    subtitle = "Proportion of congregations below average income = 1 - % above",
-    x = "\nTRAD-12", 
-    y = "Proportion of members above average income\n"
+    title = "Proportion of congregations above and below average income by TRAD12",
+    x = "\nTRAD12",
+    y = "Proportion of congregations\n"
   ) +
   theme_bw() +
   theme(
     text = element_text(family = "Times"),
     plot.title = element_text(hjust = 0.5),
-    plot.subtitle = element_text(hjust = 0.5),
-    legend.position = "none"
+    legend.position = "bottom"
   )
+
 dev.off()
 
 ## DATA  VIZ 2 ##

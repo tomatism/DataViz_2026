@@ -190,11 +190,13 @@ The data for this problem set come from the	National Congregations Study Switzer
 \noindent\textbf{Answer 1}\\
 \vspace{0.5cm}
 
-\noindent To compute the proportion of congregations with above-average income for each year and 12-level religious classification, the data was further wrangled. For each combination, the mean of the \texttt{AVGINCOME} binary variable was calculated, yielding the share of congregations with a value of 1.
+\noindent To compute the proportion of congregations with above-average income for each year and 12-level religious classification, the data was further wrangled. For each combination, the mean of the \texttt{AVGINCOME} binary variable was calculated, yielding the share of congregations with a value of 1. The proportion reported is out of the congregations reporting their annual income level, thus removing those having NA values for the \texttt{INCOME} variable. The proportion of below average income levels congregations was computed as 1 - \%above average. 
+
+\noindent The data was then pivoted so that for each year the proportion of above and below income level congregations would be in the same column, \texttt{IncomeLevel}. 
 
 
 \vspace{0.5cm}
-\lstinputlisting[language=R, firstline=97, lastline=102]{PS02_MT.R}
+\lstinputlisting[language=R, firstline=96, lastline=104]{PS02_MT.R}
 
 \begin{figure}[H]\centering
 	\hspace*{-1.2cm}
@@ -205,7 +207,7 @@ The data for this problem set come from the	National Congregations Study Switzer
 \noindent As shown in Figure 1,  the TRAD-12 subgroup with the higher share of congregation having an income above the average is Protestant Reformers. The subgroup had a share equal to 40.6\% in 2009 and 53.4\% in 2022. 
 
 \vspace{0.5cm}
-\lstinputlisting[language=R, firstline=107, lastline=127]{PS02_MT.R}
+\lstinputlisting[language=R, firstline=111, lastline=130]{PS02_MT.R}
 
 \vspace{0.5cm}
 
@@ -215,7 +217,7 @@ The data for this problem set come from the	National Congregations Study Switzer
 \noindent The number of official member for each TRAD-12 group in the year 2022 was computed by summing the number of official members in each of its congregations. 
 
 \vspace{0.5cm}
-\lstinputlisting[language=R, firstline=134, lastline=141]{PS02_MT.R}
+\lstinputlisting[language=R, firstline=138, lastline=145]{PS02_MT.R}
 
 \begin{figure}[H]\centering
 	\hspace*{-1cm}
@@ -228,7 +230,7 @@ The data for this problem set come from the	National Congregations Study Switzer
 
 \vspace{0.5cm}
 
-\lstinputlisting[language=R, firstline=147, lastline=163]{PS02_MT.R}
+\lstinputlisting[language=R, firstline=151, lastline=167]{PS02_MT.R}
 \vspace{0.5cm}
 
 \noindent\textbf{Answer 3}\\
@@ -250,7 +252,7 @@ The data for this problem set come from the	National Congregations Study Switzer
 
 \vspace{0.5cm}
 
-\lstinputlisting[language=R, firstline=169, lastline=208]{PS02_MT.R}
+\lstinputlisting[language=R, firstline=173, lastline=212]{PS02_MT.R}
 \vspace{0.5cm}
 
 \noindent\textbf{Answer 4}\\
@@ -270,6 +272,6 @@ The data for this problem set come from the	National Congregations Study Switzer
 
 
 \vspace{0.5cm}
-\lstinputlisting[language=R, firstline=220, lastline=237]{PS02_MT.R}
+\lstinputlisting[language=R, firstline=224, lastline=241]{PS02_MT.R}
 
 \end{document}

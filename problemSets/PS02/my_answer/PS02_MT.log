@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.9.26)  3 FEB 2026 11:30
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.9.26)  3 FEB 2026 17:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -981,50 +981,50 @@ Underfull \hbox (badness 10000) in paragraph at lines 168--169
  []
 
 (PS02_MT.R [3]) [4] (PS02_MT.R)
-<viz1.pdf, id=72, 722.7pt x 433.62pt>
+<viz1.pdf, id=72, 722.7pt x 578.16pt>
 File: viz1.pdf Graphic file (type pdf)
 <use viz1.pdf>
-Package pdftex.def Info: viz1.pdf  used on input line 202.
-(pdftex.def)             Requested size: 516.73338pt x 310.04257pt.
+Package pdftex.def Info: viz1.pdf  used on input line 204.
+(pdftex.def)             Requested size: 516.73338pt x 413.39009pt.
 
-Overfull \hbox (15.44563pt too wide) in paragraph at lines 200--203
+Overfull \hbox (15.44563pt too wide) in paragraph at lines 202--205
  []|  [][] 
  []
 
 [5] (PS02_MT.R [6 <./viz1.pdf>]) (PS02_MT.R)
-<viz2.pdf, id=114, 722.7pt x 578.16pt>
+<viz2.pdf, id=111, 722.7pt x 578.16pt>
 File: viz2.pdf Graphic file (type pdf)
 <use viz2.pdf>
-Package pdftex.def Info: viz2.pdf  used on input line 223.
+Package pdftex.def Info: viz2.pdf  used on input line 225.
 (pdftex.def)             Requested size: 516.73338pt x 413.39009pt.
 
-Overfull \hbox (21.13611pt too wide) in paragraph at lines 221--224
+Overfull \hbox (21.13611pt too wide) in paragraph at lines 223--226
  []|  [][] 
  []
 
 [7] (PS02_MT.R [8 <./viz2.pdf>])
-<viz3.pdf, id=154, 722.7pt x 578.16pt>
+<viz3.pdf, id=156, 722.7pt x 578.16pt>
 File: viz3.pdf Graphic file (type pdf)
 <use viz3.pdf>
-Package pdftex.def Info: viz3.pdf  used on input line 244.
+Package pdftex.def Info: viz3.pdf  used on input line 246.
 (pdftex.def)             Requested size: 516.73338pt x 413.39009pt.
 
-Overfull \hbox (21.13611pt too wide) in paragraph at lines 242--245
+Overfull \hbox (21.13611pt too wide) in paragraph at lines 244--247
  []|  [][] 
  []
 
 [9] (PS02_MT.R [10 <./viz3.pdf>])
-Underfull \hbox (badness 10000) in paragraph at lines 256--257
+Underfull \hbox (badness 10000) in paragraph at lines 258--259
 
  []
 
-<viz4.pdf, id=187, 578.16pt x 578.16pt>
+<viz4.pdf, id=189, 578.16pt x 578.16pt>
 File: viz4.pdf Graphic file (type pdf)
 <use viz4.pdf>
-Package pdftex.def Info: viz4.pdf  used on input line 265.
+Package pdftex.def Info: viz4.pdf  used on input line 267.
 (pdftex.def)             Requested size: 516.73338pt x 516.75746pt.
 
-Overfull \hbox (35.36249pt too wide) in paragraph at lines 263--266
+Overfull \hbox (35.36249pt too wide) in paragraph at lines 265--268
  []|  [][] 
  []
 
@@ -1037,10 +1037,10 @@ Package rerunfilecheck Info: File `PS02_MT.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 27774 strings out of 474486
- 486484 string characters out of 5743755
+ 27785 strings out of 474486
+ 486602 string characters out of 5743755
  2187542 words of memory out of 5000000
- 49377 multiletter control sequences out of 15000+600000
+ 49386 multiletter control sequences out of 15000+600000
  574676 words of font info for 86 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,8n,93p,3241b,2070s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1059,9 +1059,9 @@ AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm2074.pk><C:/Users/m
 atil/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C
 :/Users/matil/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy
 10.pfb>
-Output written on PS02_MT.pdf (13 pages, 205289 bytes).
+Output written on PS02_MT.pdf (13 pages, 207007 bytes).
 PDF statistics:
- 612 PDF objects out of 1000 (max. 8388607)
- 169 named destinations out of 1000 (max. 500000)
+ 616 PDF objects out of 1000 (max. 8388607)
+ 171 named destinations out of 1000 (max. 500000)
  33 words of extra memory for PDF output out of 10000 (max. 10000000)
 
