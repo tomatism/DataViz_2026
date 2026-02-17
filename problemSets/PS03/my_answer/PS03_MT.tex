@@ -1,0 +1,248 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage{graphicx,textcomp}
+\usepackage{natbib}
+\usepackage{setspace}
+\usepackage{fullpage}
+\usepackage{color}
+\usepackage[reqno]{amsmath}
+\usepackage{amsthm}
+\usepackage{fancyvrb}
+\usepackage{amssymb,enumerate}
+\usepackage[all]{xy}
+\usepackage{endnotes}
+\usepackage{lscape}
+\newtheorem{com}{Comment}
+\usepackage{float}
+\usepackage{hyperref}
+\newtheorem{lem} {Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{thm}{Theorem}
+\newtheorem{defn}{Definition}
+\newtheorem{cor}{Corollary}
+\newtheorem{obs}{Observation}
+\usepackage[compact]{titlesec}
+\usepackage{dcolumn}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usepackage{multirow}
+\usepackage{xcolor}
+\newcolumntype{.}{D{.}{.}{-1}}
+\newcolumntype{d}[1]{D{.}{.}{#1}}
+\definecolor{light-gray}{gray}{0.65}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+\lstset{style=mystyle}
+\newcommand{\Sref}[1]{Section~\ref{#1}}
+\newtheorem{hyp}{Hypothesis}
+
+\title{Problem Set 3}
+\date{Due: February 18, 2026}
+\author{Data Visualisation for Social Scientists}
+
+\begin{document}
+	\maketitle
+	
+	\section*{Instructions}
+	\begin{itemize}
+	\item Please show your work! You may lose points by simply writing in the answer. If the problem requires you to execute commands in \texttt{R}, please include the code you used to get your answers. Please also include the \texttt{.R} file that contains your code. If you are not sure if work needs to be shown for a particular problem, please ask.
+\item Your homework should be submitted electronically on GitHub.
+\item This problem set is due before 23:59 on Wednesday February 18, 2026. No late assignments will be accepted.
+	\end{itemize}
+	
+	\vspace{.25cm}
+	\section*{Canadian Election Study}
+	
+The data for this problem set come from the	Canadian Election Study (\href{https://ces-eec.sites.olt.ubc.ca/files/2017/04/CES2015_Combined_Data_Codebook.pdf}{CES})  in 2015. The main purpose of the study is to give a comprehensive picture of the Canadian election: why people vote as they do, what changes during campaigns and across elections, and how Canadian voting compares with that in other democracies.
+
+\subsection*{Data Manipulation}
+
+\begin{enumerate}
+\item Load the CES .csv file from \href{https://raw.githubusercontent.com/ASDS-TCD/DataViz_2026/refs/heads/main/datasets/CES2015.csv}{GitHub} into your global environment. Filter respondents to only include "high quality" participants: 
+\begin{verbatim}
+ces2015 <- ces2015 |> filter(discard == "Good quality")
+\end{verbatim}
+\item Filter the dataset to those participants that answered the question about voting for the past election using \texttt{p\_voted}. Consider respondents who gave a "Yes" answer as having voted, while “No” as not having voted. Treat “Don’t know” and “Refused” as missing.
+\item Create an age variable and group into categories (e.g., $<$30, 30-44, 45-64, 65+). Year of birth is in age (four‑digit year).
+\end{enumerate}
+
+\vspace{1cm}
+\noindent\textbf{Answer 1}\\
+\vspace{0.5cm}
+
+\noindent The dataset is loaded in the global environment and the desired variable, \textbf{discard}, is subselected, only keeping \emph{Good Quality} observations. 
+
+\vspace{0.5cm}
+\lstinputlisting[language=R, firstline=36, lastline=39]{PS03_MT.R}
+
+\vspace{0.5cm}
+\noindent\textbf{Answer 2}\\
+\vspace{0.5cm}
+
+\noindent The variable \textbf{p\_voted} is mutated as to recode the replies \emph{Don't Know} and \emph{Refused} into NAs. The \emph{Yes} and \emph{No} replies were kept as such.
+
+\vspace{0.5cm}
+\lstinputlisting[language=R, firstline=41, lastline=47]{PS03_MT.R}
+
+\vspace{0.5cm}
+\noindent\textbf{Answer 3}\\
+\vspace{0.5cm}
+
+\noindent In order to create a categorical variable the age of respondents is calculated by subtracting the \textbf{age} value from 2015, when the dataset was collected. 
+
+\vspace{0.5cm}
+\lstinputlisting[language=R, firstline=51, lastline=55]{PS03_MT.R}
+
+\vspace{0.5cm}
+\noindent Afterwards the \textbf{age\_cat} variable is created by binning the \textbf{age\_years} variable, four categories are obtained. 
+
+\vspace{0.5cm}
+\lstinputlisting[language=R, firstline=60, lastline=65]{PS03_MT.R}
+
+\vspace{2cm}
+
+\subsection*{Data Visualization}
+
+\begin{enumerate}
+	\item Plot turnout rate by age group.
+	\item Create a density plot of ideology by party, restricting your sample to respondents with non‑missing left–right self‑placement (0–10 scale) and those that intended to vote for a main party (e.g., Liberal, Conservative, NDP, Bloc in Quebec, and Green).
+	\item Produce histogram counts of turnout by income (\texttt{income\_full}), faceted by province.
+	\item Create your own reusable custom theme. Apply your theme to one of the previous plots and add:
+	\begin{enumerate}
+		\item An improved title summarizing the main substantive takeaway.
+		\item A more informative subtitle describing the sample and variables.
+		\item A caption noting data source, weighting, and key coding decisions.
+		\item At least one direct annotation using \texttt{ggrepel} that calls out a key pattern.
+	\end{enumerate}
+
+\end{enumerate}
+
+\vspace{1cm}
+
+\noindent\textbf{Answer 1}\\
+\vspace{0.5cm}
+
+\noindent To calculate the turnout rate for each age group, we first determine the total number of valid voters, \emph{total\_valid}, defined as those who answered either \emph{Yes} or \emph{No} to the \emph{p\_voted} variable.
+
+\noindent Next, for each age category, the \textbf{turnout\_rate} is calculated by dividing the number of respondents who answered \emph{Yes} by \emph{total\_valid}.
+
+\vspace{0.5cm}
+\lstinputlisting[language=R, firstline=78, lastline=88]{PS03_MT.R}
+
+\vspace{0.5cm}
+
+\noindent Figure 1 shows the turnout rate for each age group relative to the total number of valid voters. The 45–64-year-old group has the highest turnout rate at 40\%, followed by the 65+ age group. Turnout is noticeably lower among younger voters, particularly those aged 18–24, indicating lower electoral engagement. Overall, turnout tends to increase with age, suggesting that middle-aged and older citizens are more likely to participate in elections.
+
+\vspace{0.5cm}
+\lstinputlisting[language=R, firstline=92, lastline=108]{PS03_MT.R}
+
+\begin{figure}[H]\centering
+	\caption{}
+	\label{fig:visualisation_1}
+	\hspace*{-1.5cm}
+	\includegraphics[width=1.1\textwidth]{viz1.pdf}
+\end{figure}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Answer 2}\\
+\vspace{0.5cm}
+
+\noindent To create the second visualization both the \textbf{p\_selfplace} and the \textbf{vote\_for} are filtered as to only keep those who responded in the first, and the desired main party voters in the second. 
+
+\vspace{0.5cm}
+\lstinputlisting[language=R, firstline=116, lastline=124]{PS03_MT.R}
+
+\vspace{0.5cm}
+\noindent Figure 2 shows the density plot of left–right ideology placement for each of the five main Canadian parties. The \emph{Conservatives} and \emph{Bloc Québécois} are the most strongly skewed toward the extremes, to the right and left respectively. The other three parties are more centrist, exhibiting a higher central peak in their distributions.
+
+\vspace{0.5cm}
+\lstinputlisting[language=R, firstline=131, lastline=147]{PS03_MT.R}
+
+\begin{figure}[H]\centering
+\caption{}
+\label{fig:visualisation_2}
+\hspace*{-1.5cm}
+\includegraphics[width=1.1\textwidth]{viz2.pdf}
+\end{figure}	
+\vspace{0.5cm}
+	
+\noindent\textbf{Answer 3}\\
+\vspace{0.5cm}
+	
+\noindent For the third visualization, the province names were adjusted for clarity. Additionally, the provinces of \emph{Yukon} and \emph{Nunavut} were excluded due to missing income data.
+	
+\noindent The data were then grouped by Canadian regions and income categories. For each subgroup, the number of voters was calculated based on respondents who answered \emph{Yes} to the \emph{p\_voted} question, providing the turnout count.
+	
+\vspace{0.5cm}
+\lstinputlisting[language=R, firstline=154, lastline=184]{PS03_MT.R}
+	
+\vspace{0.5cm}	
+\noindent Figure 3 reports the histograms counts of turnout, hence the count of how many stated to have voted, by Canadian region and income level. The regions of \textbf{Ontario} and \textbf{Quebec} showcase the highest overall turnout count.  
+	
+\vspace{0.5cm}
+\lstinputlisting[language=R, firstline=188, lastline=204]{PS03_MT.R}
+	
+\begin{figure}[H]\centering
+		\caption{}
+		\label{fig:visualisation_3}
+		\hspace*{-0.65cm}
+		\includegraphics[width=1.1\textwidth]{viz3.pdf}
+\end{figure}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Answer 4}\\
+\vspace{0.5cm}
+
+\noindent A personalised theme, \textbf{PS03\_theme}, is created. The theme has all text set in Times New Roman, with bold plot titles in black, subtitles in dark grey, and captions in lighter grey italics. Facet labels are bold with a dark grey background. The plot background is a cream color, and major grid lines are light grey. Axis titles are bold, while x-axis labels are rotated 90° for readability. Panel borders are dark grey, and the legend is removed for simplicity. 
+
+\vspace{0.5cm}
+\lstinputlisting[language=R, firstline=210, lastline=225]{PS03_MT.R}
+
+\vspace{0.5cm}	
+\noindent The key pattern highlighted in the figure is the \textbf{U-shape of the histograms}. The lowest turnout counts are observed in the second or third income category across regions. To verify this pattern, the income category with the lowest turnout in each region was identified and stored in the variable \textbf{low\_count}. Notably, both the lowest and the highest income levels consistently exhibit higher turnout counts compared to the middle-income categories.
+
+\vspace{0.5cm}
+\lstinputlisting[language=R, firstline=227, lastline=230]{PS03_MT.R}
+
+\vspace{0.5cm}	
+\noindent Figure 4 reports \emph{Figure 3}, but formatted with the \textbf{PS03\_theme}. A title indicating the u-shaped pattern is added, as well as an informative sub-title and caption. Annotation reporting the lowest turnout count is added. 
+
+\vspace{0.5cm}
+\lstinputlisting[language=R, firstline=233, lastline=255]{PS03_MT.R}
+
+\vspace{0.5cm}
+
+\begin{figure}[H]\centering
+	\caption{}
+	\label{fig:visualisation_4}
+	\hspace*{-0.65cm}
+	\includegraphics[width=1.1\textwidth]{viz4.pdf}
+\end{figure}
+
+\end{document}
