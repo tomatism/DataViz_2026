@@ -1,8 +1,0 @@
-\contentsline {section}{\numberline {1}Executive Summary}{2}{section.1}%
-\contentsline {section}{\numberline {2}Data Background \& Hypothesis}{2}{section.2}%
-\contentsline {section}{\numberline {3}Data Cleaning}{3}{section.3}%
-\contentsline {section}{\numberline {4}Analysis}{4}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Female Ministers Share \& Left-Right Positioning}{4}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Boxplot of Female and Men Ministers' Ideological Positioning}{10}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Heatplot of Within Cabinet Gender\-Gap in Ideology}{13}{subsection.4.3}%
-\contentsline {section}{\numberline {5}Conclusion}{15}{section.5}%
