@@ -109,7 +109,7 @@ WG_cross <- WG_cross |>
   group_by(year) |>
   mutate(
     q_share = ntile(fem_min_share, 4),
-    q_share = as.factor(quantile)
+    q_share = as.factor(q_share)
   ) |>
   ungroup()
 
@@ -193,7 +193,7 @@ WG_rile_avg <- WG_rile_avg |>
   group_by(year) |>
   mutate(
     q_rile = ntile(avg_rile, 4),
-    q_rile = as.factor(quantile)
+    q_rile = as.factor(q_rile)
   ) |>
   ungroup()
 
@@ -253,9 +253,9 @@ dev.off()
 
 ### Data Visualisation 2 ### 
 
-world_map <- read_sf("ne_110m_admin_0_countries.shp")|> 
-  filter(ISO_A3 != "ATA")
-
+world_map <- read_sf("ne_110m_admin_0_countries.shp") |>
+  filter(ISO_A3 != "ATA") |>
+  mutate(NAME = recode(NAME, "United States of America" = "United States"))
 common_fill <- scale_fill_viridis_d(
   option = "viridis",
   na.value = "grey80",
@@ -279,7 +279,7 @@ wm_1990 <- ggplot() +
   coord_sf(crs = "+proj=robin") + 
   common_fill +
   labs(fill = "Quantiles",
-       subtitle = "Year 1995") +
+       subtitle = "Year 1990") +
   theme_bw() +
   final_theme
 #The same visualisation is repeated for the next 3 years chosen
@@ -354,7 +354,7 @@ pdf("wm_9020_share.pdf", width = 10, height = 7)
   plot_layout(ncol = 2) +
   plot_annotation(
     title = "Quantiles in the share of female ministers in OECD countries",
-    caption = "Source: Manifesto Project; 1990, 2000, 2010 & 2023. \nQuantiles are computed for each year, considering the share of female ministers over the total number of ministers, \nwith unweighted values.",
+    caption = "Source: Manifesto Project; 1990, 2000, 2010 & 2020. \nQuantiles are computed for each year, considering the share of female ministers over the total number of ministers, \nwith unweighted values.",
     theme = theme(
       plot.title = element_text(face = "bold", size = 14, family = "serif", hjust = 0.5),
       plot.caption = element_text(face = "italic", size = 10, family = "serif", color = "grey30", hjust = 0)
